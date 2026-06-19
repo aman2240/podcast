@@ -529,7 +529,7 @@ img { max-width: 100%; height: auto; display: block; }
   display: grid;
   grid-template-columns: repeat(24, 1fr);
   gap: 24px;
-  height: 100vh;
+  min-height: 100vh;
   align-content: start;
   padding-top: 80px;
 }
@@ -737,6 +737,62 @@ img { max-width: 100%; height: auto; display: block; }
 .alt-bg {
   background: var(--bg-light);
 }
+
+/* ========== INSTAGRAM BADGE ========== */
+.instagram-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+  font-size: 18px;
+  color: var(--text-light);
+}
+
+.instagram-badge i {
+  font-size: 32px;
+  color: var(--accent);
+}
+
+.instagram-badge span {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* ========== BLOG CARDS ========== */
+.blog-card {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding-bottom: 8px;
+}
+
+.blog-card .template-info {
+  padding: 24px 24px 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.blog-card .template-info h3 {
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--text-white);
+}
+
+.blog-excerpt {
+  padding: 16px 24px 0;
+  font-size: 15px;
+  color: var(--text-light);
+  line-height: 1.7;
+  font-style: italic;
+  flex: 1;
+}
+
+
 
 /* ========== TESTIMONIALS ========== */
 .testimonials-slider {

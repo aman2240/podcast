@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* ========== SERIES CARDS ========== */
-    gsap.from('.template-card', {
+    gsap.from('#series .template-card', {
       y: 60,
       opacity: 0,
       duration: 0.8,
@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const gridTextItems = document.querySelectorAll('.grid-scroll-section .grid__item--text');
     const gridImgs = document.querySelectorAll('.grid-scroll-section .grid__img');
 
-    if (gridSection && window.innerWidth > 768) {
+    if (gridSection && window.innerWidth > 992) {
       ScrollTrigger.create({
         trigger: gridSection,
         start: 'top top',
@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /* ========== CONTENT SECTIONS REVEAL ========== */
-    const contentSections = document.querySelectorAll('#episodes, #videos, #events, #blog');
+    const contentSections = document.querySelectorAll('#episodes, #videos, #events');
     contentSections.forEach(section => {
       gsap.from(section.querySelector('.content-text'), {
         x: -60,
@@ -249,6 +249,20 @@ document.addEventListener('DOMContentLoaded', () => {
           start: 'top 65%'
         }
       });
+    });
+
+    /* ========== BLOG CARDS REVEAL ========== */
+    gsap.from('#blog .template-card', {
+      y: 60,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.1,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '#blog',
+        start: 'top 70%',
+        toggleActions: 'play none none none'
+      }
     });
 
     /* ========== TESTIMONIAL SLIDER ========== */
@@ -340,4 +354,9 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ========== REFRESH ========== */
     ScrollTrigger.refresh();
   }
+
+  /* ========== REFRESH AFTER IMAGES LOAD ========== */
+  window.addEventListener('load', () => {
+    ScrollTrigger.refresh(true);
+  });
 });
