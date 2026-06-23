@@ -49,70 +49,33 @@
   </nav>
 
   <!-- ========== HERO ========== -->
-  <section id="hero">
-    <div class="hero-tiles" id="heroTiles">
-      <div class="tiles-row" data-speed="0.8">
-        <div class="tile"><img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=400&q=80" alt=""></div>
-        <div class="tile"><img src="https://images.unsplash.com/photo-1618605387956-8f9a1b4e51b8?w=400&q=80" alt=""></div>
-        <div class="tile"><img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400&q=80" alt=""></div>
-        <div class="tile"><img src="https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=400&q=80" alt=""></div>
-        <div class="tile"><img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=400&q=80" alt=""></div>
-        <div class="tile"><img src="https://images.unsplash.com/photo-1618605387956-8f9a1b4e51b8?w=400&q=80" alt=""></div>
-      </div>
-      <div class="tiles-row" data-speed="-1.2">
-        <div class="tile"><img src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=400&q=80" alt=""></div>
-        <div class="tile"><img src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=400&q=80" alt=""></div>
-        <div class="tile"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&q=80" alt=""></div>
-        <div class="tile"><img src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=400&q=80" alt=""></div>
-        <div class="tile"><img src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=400&q=80" alt=""></div>
-        <div class="tile"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&q=80" alt=""></div>
-      </div>
-      <div class="tiles-row" data-speed="0.6">
-        <div class="tile"><img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=400&q=80" alt=""></div>
-        <div class="tile"><img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400&q=80" alt=""></div>
-        <div class="tile"><img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=400&q=80" alt=""></div>
-        <div class="tile"><img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400&q=80" alt=""></div>
-        <div class="tile"><img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=400&q=80" alt=""></div>
-        <div class="tile"><img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400&q=80" alt=""></div>
-      </div>
-      <div class="tiles-row" data-speed="-0.5">
-        <div class="tile"><img src="https://images.unsplash.com/photo-1590650516494-0c7e4a4dd67e?w=400&q=80" alt=""></div>
-        <div class="tile"><img src="https://images.unsplash.com/photo-1590650516494-0c7e4a4dd67e?w=400&q=80" alt=""></div>
-        <div class="tile"><img src="https://images.unsplash.com/photo-1590650516494-0c7e4a4dd67e?w=400&q=80" alt=""></div>
-        <div class="tile"><img src="https://images.unsplash.com/photo-1590650516494-0c7e4a4dd67e?w=400&q=80" alt=""></div>
-        <div class="tile"><img src="https://images.unsplash.com/photo-1590650516494-0c7e4a4dd67e?w=400&q=80" alt=""></div>
-        <div class="tile"><img src="https://images.unsplash.com/photo-1590650516494-0c7e4a4dd67e?w=400&q=80" alt=""></div>
-      </div>
-      <div class="tiles-row" data-speed="1.0">
-        <div class="tile"><img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400&q=80" alt=""></div>
-        <div class="tile"><img src="https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=400&q=80" alt=""></div>
-        <div class="tile"><img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400&q=80" alt=""></div>
-        <div class="tile"><img src="https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=400&q=80" alt=""></div>
-        <div class="tile"><img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400&q=80" alt=""></div>
-        <div class="tile"><img src="https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=400&q=80" alt=""></div>
-      </div>
+  <!-- ========== HERO ========== -->
+<section id="hero" style="position:relative;width:100%;height:100vh;overflow:hidden;background:#0a0000;">
+  <div id="heroTiles" style="position:absolute;inset:-80px;display:flex;flex-direction:column;gap:10px;padding:10px;transform:rotate(-8deg) scale(1.2);transform-origin:center center;">
+    <div class="tile-row" style="display:flex;gap:10px;flex-shrink:0;"></div>
+    <div class="tile-row" style="display:flex;gap:10px;flex-shrink:0;"></div>
+    <div class="tile-row" style="display:flex;gap:10px;flex-shrink:0;"></div>
+    <div class="tile-row" style="display:flex;gap:10px;flex-shrink:0;"></div>
+    <div class="tile-row" style="display:flex;gap:10px;flex-shrink:0;"></div>
+  </div>
+  <div style="position:absolute;inset:0;background:rgba(10,0,0,0.52);"></div>
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 20px;">
+    <h1 class="hero-title">ANUPAM SINGH <br>
+    TALKS</h1>
+    <p class="hero-subtitle">Stories That Matter — Hosted by Anupam Singh</p>
+    <div class="hero-buttons">
+      <a href="#" class="btn-primary">Latest Episode</a>
+      <a href="#" class="btn-secondary">Listen Now</a>
     </div>
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <h1 class="hero-title">ANUPAM SINGH TALKS</h1>
-      <p class="hero-subtitle">Stories That Matter — Hosted by Anupam Singh</p>
-      <div class="hero-buttons">
-        <a href="#" class="btn-primary">Latest Episode</a>
-        <a href="#" class="btn-secondary">Listen Now</a>
-      </div>
-    </div>
-    <div class="scroll-indicator">
-      <span>Scroll</span>
-      <div class="scroll-line"></div>
-    </div>
-  </section>
+  </div>
+</section>
 
   <!-- ========== EPISODE SERIES ========== -->
   <section id="series" class="section">
     <div class="container">
       <div class="section-header">
         <span class="section-tag">Series</span>
-        <h2 class="section-title">Episode Series</h2>
+        <h2 class="section-title">Episode <span class="scribble-highlight">Series</span></h2>
         <div class="title-underline">
           <svg viewBox="0 0 200 20" preserveAspectRatio="none">
             <path d="M0,10 C30,0 50,20 80,10 C110,0 130,20 160,10 C180,5 190,15 200,10" stroke="#ff5722" stroke-width="2" fill="none" class="underline-path"/>
@@ -184,7 +147,7 @@
     <div class="container">
       <div class="section-header">
         <span class="section-tag">Why Listen</span>
-        <h2 class="section-title">What Makes Us Different</h2>
+        <h2 class="section-title">What Makes Us <span class="scribble-highlight">Different</span></h2>
         <div class="title-underline">
           <svg viewBox="0 0 200 20" preserveAspectRatio="none">
             <path d="M0,10 C30,0 50,20 80,10 C110,0 130,20 160,10 C180,5 190,15 200,10" stroke="#ff5722" stroke-width="2" fill="none" class="underline-path"/>
@@ -196,22 +159,22 @@
           <div class="feature-icon">
             <i class="fas fa-microphone"></i>
           </div>
-          <h3 class="feature-title">Authentic Conversations</h3>
-          <p class="feature-desc">Raw, unfiltered conversations with inspiring people. No scripts, just real stories that connect and inspire.</p>
+          <div class="mask-wrap"><h3 class="feature-title">Authentic Conversations</h3></div>
+          <div class="mask-wrap"><p class="feature-desc">Raw, unfiltered conversations with inspiring people. No scripts, just real stories that connect and inspire.</p></div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">
             <i class="fas fa-headphones"></i>
           </div>
-          <h3 class="feature-title">Weekly Episodes</h3>
-          <p class="feature-desc">Fresh episodes every week covering a wide range of topics — from technology and career to life and creativity.</p>
+          <div class="mask-wrap"><h3 class="feature-title">Weekly Episodes</h3></div>
+          <div class="mask-wrap"><p class="feature-desc">Fresh episodes every week covering a wide range of topics — from technology and career to life and creativity.</p></div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">
             <i class="fas fa-globe"></i>
           </div>
-          <h3 class="feature-title">Global Perspectives</h3>
-          <p class="feature-desc">Featuring guests from around the world sharing unique insights, experiences, and wisdom from their journeys.</p>
+          <div class="mask-wrap"><h3 class="feature-title">Global Perspectives</h3></div>
+          <div class="mask-wrap"><p class="feature-desc">Featuring guests from around the world sharing unique insights, experiences, and wisdom from their journeys.</p></div>
         </div>
       </div>
     </div>
@@ -246,7 +209,7 @@
       <div class="content-row">
         <div class="content-text">
           <span class="section-tag">Episodes</span>
-          <h2 class="section-title">Latest Episodes</h2>
+          <h2 class="section-title">Latest <span class="scribble-highlight">Episodes</span></h2>
           <div class="title-underline small">
             <svg viewBox="0 0 120 14" preserveAspectRatio="none">
               <path d="M0,7 C20,0 35,14 55,7 C75,0 90,14 110,7 C118,4 119,10 120,7" stroke="#ff5722" stroke-width="2" fill="none" class="underline-path"/>
@@ -276,7 +239,7 @@
       <div class="content-row reverse">
         <div class="content-text">
           <span class="section-tag">Videos</span>
-          <h2 class="section-title">Watch on YouTube</h2>
+          <h2 class="section-title">Watch on <span class="scribble-highlight">YouTube</span></h2>
           <div class="title-underline small">
             <svg viewBox="0 0 120 14" preserveAspectRatio="none">
               <path d="M0,7 C20,0 35,14 55,7 C75,0 90,14 110,7 C118,4 119,10 120,7" stroke="#ff5722" stroke-width="2" fill="none" class="underline-path"/>
@@ -306,7 +269,7 @@
       <div class="content-row">
         <div class="content-text">
           <span class="section-tag">Instagram</span>
-          <h2 class="section-title">Connect With Us</h2>
+          <h2 class="section-title"><span class="scribble-highlight">Connect</span> With Us</h2>
           <div class="title-underline small">
             <svg viewBox="0 0 120 14" preserveAspectRatio="none">
               <path d="M0,7 C20,0 35,14 55,7 C75,0 90,14 110,7 C118,4 119,10 120,7" stroke="#ff5722" stroke-width="2" fill="none" class="underline-path"/>
@@ -314,8 +277,6 @@
           </div>
           <p class="content-desc">Follow Anupam Singh Talks on Instagram for behind-the-scenes moments, episode highlights, daily inspiration, and a closer look at the stories that shape our conversations.</p>
           <div class="instagram-badge">
-            <i class="fab fa-instagram"></i>
-            <span>@anupamsinghtalks</span>
           </div>
           <a href="#" class="btn-primary">Follow on Instagram</a>
         </div>
@@ -334,12 +295,13 @@
     </div>
   </section>
 
+
   <!-- ========== BLOG ========== -->
   <section id="blog" class="section">
     <div class="container">
       <div class="section-header">
         <span class="section-tag">Blogs</span>
-        <h2 class="section-title">Latest from Anupam</h2>
+        <h2 class="section-title">Latest from <span class="scribble-highlight">Anupam</span></h2>
         <div class="title-underline">
           <svg viewBox="0 0 200 20" preserveAspectRatio="none">
             <path d="M0,10 C30,0 50,20 80,10 C110,0 130,20 160,10 C180,5 190,15 200,10" stroke="#ff5722" stroke-width="2" fill="none" class="underline-path"/>
@@ -392,7 +354,7 @@
     <div class="container">
       <div class="section-header">
         <span class="section-tag">Reviews</span>
-        <h2 class="section-title">Listener Love</h2>
+        <h2 class="section-title">Listener <span class="scribble-highlight">Love</span></h2>
         <div class="title-underline">
           <svg viewBox="0 0 200 20" preserveAspectRatio="none">
             <path d="M0,10 C30,0 50,20 80,10 C110,0 130,20 160,10 C180,5 190,15 200,10" stroke="#ff5722" stroke-width="2" fill="none" class="underline-path"/>
