@@ -49,30 +49,38 @@
   </nav>
 
   <!-- ========== HERO ========== -->
-  <!-- ========== HERO ========== -->
-<section id="hero" style="position:relative;width:100%;height:100vh;overflow:hidden;background:#0a0000;">
-  <div id="heroTiles" style="position:absolute;inset:-80px;display:flex;flex-direction:column;gap:10px;padding:10px;transform:rotate(-8deg) scale(1.2);transform-origin:center center;">
-    <div class="tile-row" style="display:flex;gap:10px;flex-shrink:0;"></div>
-    <div class="tile-row" style="display:flex;gap:10px;flex-shrink:0;"></div>
-    <div class="tile-row" style="display:flex;gap:10px;flex-shrink:0;"></div>
-    <div class="tile-row" style="display:flex;gap:10px;flex-shrink:0;"></div>
-    <div class="tile-row" style="display:flex;gap:10px;flex-shrink:0;"></div>
-  </div>
-  <div style="position:absolute;inset:0;background:rgba(10,0,0,0.52);"></div>
-  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 20px;">
-    <h1 class="hero-title">ANUPAM SINGH <br>
-    TALKS</h1>
+<section id="hero">
+  <div id="heroTiles" style="
+  position:absolute;
+  top:-180px; left:-180px; right:-180px; bottom:-180px;
+  display:grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap:18px;
+  transform: rotate(16deg);
+  transform-origin: 80% 50%;
+"></div>
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <h1 class="hero-title">ANUPAM SINGH<br> TALKS</h1>
     <p class="hero-subtitle">Stories That Matter — Hosted by Anupam Singh</p>
     <div class="hero-buttons">
       <a href="#" class="btn-primary">Latest Episode</a>
       <a href="#" class="btn-secondary">Listen Now</a>
     </div>
   </div>
+
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
 </section>
 
   <!-- ========== EPISODE SERIES ========== -->
   <section id="series" class="section">
-    <div class="container">
+    <div class="container container--wide">
       <div class="section-header">
         <span class="section-tag">Series</span>
         <h2 class="section-title">Episode <span class="scribble-highlight">Series</span></h2>
@@ -83,60 +91,121 @@
         </div>
         <p class="section-desc">Explore curated series of conversations that dive deep into stories, ideas, and perspectives that shape our world.</p>
       </div>
-      <div class="template-grid">
-        <div class="template-card">
-          <div class="template-img">
-            <img src="https://images.unsplash.com/photo-1493612276216-ee3925520721?w=600&q=80" alt="Series 1">
-          </div>
-          <div class="template-info">
-            <span class="template-num">01</span>
-            <h3>Life Stories</h3>
-          </div>
+      <div class="series-grid">
+        <!-- Row 1: 2 large landscape cards -->
+        <div class="series-row series-row--2">
+          <article class="series-card series-card--lg">
+            <div class="series-card__image">
+              <img src="https://images.unsplash.com/photo-1493612276216-ee3925520721?w=800&q=80" alt="Life Stories" loading="lazy">
+              <div class="series-card__overlay"></div>
+            </div>
+            <div class="series-card__body">
+              
+              <div class="series-card__content">
+                <h3 class="series-card__title">Life Stories</h3>
+                <!-- <p class="series-card__desc">Deep conversations about life, experiences, and the moments that define us.</p> -->
+              </div>
+            </div>
+          </article>
+          <article class="series-card series-card--lg">
+            <div class="series-card__image">
+              <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80" alt="Career Talks" loading="lazy">
+              <div class="series-card__overlay"></div>
+            </div>
+            <div class="series-card__body">
+              
+              <div class="series-card__content">
+                <h3 class="series-card__title">Career Talks</h3>
+                <!-- <p class="series-card__desc">Professional journeys, career pivots, and lessons from industry leaders.</p> -->
+              </div>
+            </div>
+          </article>
         </div>
-        <div class="template-card">
-          <div class="template-img">
-            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80" alt="Series 2">
-          </div>
-          <div class="template-info">
-            <span class="template-num">02</span>
-            <h3>Career Talks</h3>
-          </div>
+
+        <!-- Row 2: 3 landscape cards -->
+        <div class="series-row series-row--3">
+          <article class="series-card">
+            <div class="series-card__image">
+              <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80" alt="Tech &amp; Future" loading="lazy">
+              <div class="series-card__overlay"></div>
+            </div>
+            <div class="series-card__body">
+              
+              <div class="series-card__content">
+                <h3 class="series-card__title">Tech &amp; Future</h3>
+                <!-- <p class="series-card__desc">Exploring cutting-edge technology and what lies ahead.</p> -->
+              </div>
+            </div>
+          </article>
+          <article class="series-card">
+            <div class="series-card__image">
+              <img src="https://images.unsplash.com/photo-1559028012-481c04fa702d?w=800&q=80" alt="Mind &amp; Growth" loading="lazy">
+              <div class="series-card__overlay"></div>
+            </div>
+            <div class="series-card__body">
+              
+              <div class="series-card__content">
+                <h3 class="series-card__title">Mind &amp; Growth</h3>
+                <!-- <p class="series-card__desc">Psychology, personal development, and the science of growth.</p> -->
+              </div>
+            </div>
+          </article>
+          <article class="series-card">
+            <div class="series-card__image">
+              <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&q=80" alt="Creative Insights" loading="lazy">
+              <div class="series-card__overlay"></div>
+            </div>
+            <div class="series-card__body">
+              
+              <div class="series-card__content">
+                <h3 class="series-card__title">Creative Insights</h3>
+                <!-- <p class="series-card__desc">The creative process, artistry, and finding inspiration in everyday life.</p> -->
+              </div>
+            </div>
+          </article>
         </div>
-        <div class="template-card">
-          <div class="template-img">
-            <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&q=80" alt="Series 3">
-          </div>
-          <div class="template-info">
-            <span class="template-num">03</span>
-            <h3>Tech &amp; Future</h3>
-          </div>
-        </div>
-        <div class="template-card">
-          <div class="template-img">
-            <img src="https://images.unsplash.com/photo-1559028012-481c04fa702d?w=600&q=80" alt="Series 4">
-          </div>
-          <div class="template-info">
-            <span class="template-num">04</span>
-            <h3>Mind &amp; Growth</h3>
-          </div>
-        </div>
-        <div class="template-card">
-          <div class="template-img">
-            <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&q=80" alt="Series 5">
-          </div>
-          <div class="template-info">
-            <span class="template-num">05</span>
-            <h3>Creative Insights</h3>
-          </div>
-        </div>
-        <div class="template-card">
-          <div class="template-img">
-            <img src="https://images.unsplash.com/photo-1552581234-26160f608093?w=600&q=80" alt="Series 6">
-          </div>
-          <div class="template-info">
-            <span class="template-num">06</span>
-            <h3>Conversations</h3>
-          </div>
+
+        <!-- Row 3: 3 landscape cards -->
+        <div class="series-row series-row--3">
+          <article class="series-card">
+            <div class="series-card__image">
+              <img src="https://images.unsplash.com/photo-1552581234-26160f608093?w=800&q=80" alt="Conversations" loading="lazy">
+              <div class="series-card__overlay"></div>
+            </div>
+            <div class="series-card__body">
+              
+              <div class="series-card__content">
+                <h3 class="series-card__title">Conversations</h3>
+                <!-- <p class="series-card__desc">Unscripted, raw dialogues with remarkable people from all walks of life.</p> -->
+              </div>
+            </div>
+          </article>
+          <article class="series-card">
+            <div class="series-card__image">
+              <img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=800&q=80" alt="Behind the Scenes" loading="lazy">
+              <div class="series-card__overlay"></div>
+            </div>
+            <div class="series-card__body">
+              
+              <div class="series-card__content">
+                <h3 class="series-card__title">Behind the Scenes</h3>
+                <!-- <p class="series-card__desc">A look behind the curtain at the making of the podcast and untold stories.</p> -->
+              </div>
+            </div>
+          </article>
+          <article class="series-card">
+            <div class="series-card__image">
+              <img src="https://images.unsplash.com/photo-1618605387956-8f9a1b4e51b8?w=800&q=80" alt="Inspiring Minds" loading="lazy">
+              <div class="series-card__overlay"></div>
+            </div>
+            <div class="series-card__body">
+              
+              <div class="series-card__content">
+                <h3 class="series-card__title">Inspiring Minds</h3>
+                <!-- <p class="series-card__desc">Visionaries, changemakers, and the people shaping our world share their stories.</p> -->
+              </div>
+            </div>
+          </article>
         </div>
       </div>
     </div>
@@ -250,7 +319,7 @@
         </div>
         <div class="content-images">
           <div class="ci-main">
-            <img src="https://images.unsplash.com/photo-1579165466741-7f35e4755661?w=500&q=80" alt="">
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=700&q=80" alt="">
           </div>
           <div class="ci-secondary">
             <img src="https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=300&q=80" alt="">
@@ -350,24 +419,23 @@
   </section>
 
   <!-- ========== TESTIMONIALS ========== -->
-  <section id="testimonials" class="section">
+  <section id="testimonials" class="section section--cream">
     <div class="container">
       <div class="section-header">
         <span class="section-tag">Reviews</span>
-        <h2 class="section-title">Listener <span class="scribble-highlight">Love</span></h2>
+        <h2 class="section-title"><span class="scribble-highlight">Testimonials</span></h2>
         <div class="title-underline">
           <svg viewBox="0 0 200 20" preserveAspectRatio="none">
             <path d="M0,10 C30,0 50,20 80,10 C110,0 130,20 160,10 C180,5 190,15 200,10" stroke="#ff5722" stroke-width="2" fill="none" class="underline-path"/>
           </svg>
         </div>
+        <p class="section-desc" style="font-style: italic;">See What Our Users Have to Say About the WolfThemes Experience</p>
       </div>
       <div class="testimonials-slider">
         <div class="testimonial-track">
-          <div class="testimonial-card active">
-            <div class="testi-stars">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-            </div>
-            <p class="testi-text">"Anupam has a gift for making every conversation feel personal and profound. This podcast has become my weekly companion."</p>
+          <div class="testimonial-card">
+            <span class="testi-label">Solid Theme</span>
+            <p class="testi-text">Anupam has a gift for making every conversation feel personal and profound. This podcast has become my weekly companion.</p>
             <div class="testi-author">
               <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=80" alt="">
               <div>
@@ -377,10 +445,8 @@
             </div>
           </div>
           <div class="testimonial-card">
-            <div class="testi-stars">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-            </div>
-            <p class="testi-text">"The depth of questions Anupam asks his guests is unmatched. Every episode leaves me with something new to think about."</p>
+            <span class="testi-label">Great Quality</span>
+            <p class="testi-text">The depth of questions Anupam asks his guests is unmatched. Every episode leaves me with something new to think about.</p>
             <div class="testi-author">
               <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=80" alt="">
               <div>
@@ -390,10 +456,8 @@
             </div>
           </div>
           <div class="testimonial-card">
-            <div class="testi-stars">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-            </div>
-            <p class="testi-text">"Discovered this podcast during a tough time and it changed my perspective on so many things. Highly recommend to everyone!"</p>
+            <span class="testi-label">Highly Recommended</span>
+            <p class="testi-text">Discovered this podcast during a tough time and it changed my perspective on so many things. Highly recommend to everyone!</p>
             <div class="testi-author">
               <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&q=80" alt="">
               <div>
@@ -402,11 +466,57 @@
               </div>
             </div>
           </div>
+          <div class="testimonial-card">
+            <span class="testi-label">Thoughtful</span>
+            <p class="testi-text">Every episode feels like a conversation with an old friend. Anupam's interviewing style brings out the best in his guests.</p>
+            <div class="testi-author">
+              <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&q=80" alt="">
+              <div>
+                <h4>Arjun Mehta</h4>
+                <span>Long-time Listener</span>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <span class="testi-label">Inspiring</span>
+            <p class="testi-text">I've recommended this podcast to everyone I know. The stories are raw, real, and incredibly motivating. Can't get enough!</p>
+            <div class="testi-author">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&q=80" alt="">
+              <div>
+                <h4>Sanya Kapoor</h4>
+                <span>Podcast Lover</span>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <span class="testi-label">Authentic</span>
+            <p class="testi-text">Finally, a podcast that doesn't feel scripted. The genuine conversations and diverse perspectives keep me coming back every week.</p>
+            <div class="testi-author">
+              <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&q=80" alt="">
+              <div>
+                <h4>Vikram Joshi</h4>
+                <span>Weekly Listener</span>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <span class="testi-label">Eye-opening</span>
+            <p class="testi-text">This podcast has broadened my horizons in ways I never expected. Each guest brings a unique perspective that challenges how I think.</p>
+            <div class="testi-author">
+              <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&q=80" alt="">
+              <div>
+                <h4>Isha Nair</h4>
+                <span>Dedicated Subscriber</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="testi-dots">
-          <span class="dot active" data-index="0"></span>
-          <span class="dot" data-index="1"></span>
-          <span class="dot" data-index="2"></span>
+        <div class="testi-nav">
+          <div class="testi-counter">1 / 8</div>
+          <div class="testi-arrows">
+            <span class="testi-arrow testi-arrow--prev"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg></span>
+            <span class="testi-arrow testi-arrow--next"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></span>
+          </div>
         </div>
       </div>
     </div>

@@ -17,105 +17,103 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* ========== HERO TILE GRID ========== */
+  (function () {
+    const images = [
+      'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=700&q=80',
+      'https://images.unsplash.com/photo-1618605387956-8f9a1b4e51b8?w=700&q=80',
+      'https://images.unsplash.com/photo-1552581234-26160f608093?w=700&q=80',
+      'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=700&q=80',
+      'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=700&q=80',
+      'https://images.unsplash.com/photo-1559028012-481c04fa702d?w=700&q=80',
+      'https://images.unsplash.com/photo-1493612276216-ee3925520721?w=700&q=80',
+      'https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=700&q=80',
+      'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=700&q=80',
+      'https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=700&q=80',
+      'https://images.unsplash.com/photo-1619983081563-430f63602796?w=700&q=80',
+      'https://images.unsplash.com/photo-1567596388756-f6d710c8fc07?w=700&q=80',
+      'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=700&q=80',
+      'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=700&q=80',
+      'https://images.unsplash.com/photo-1487537708183-a1f19bcd5e18?w=700&q=80',
+      'https://images.unsplash.com/photo-1543965170-e399854af5e3?w=700&q=80',
+      'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=700&q=80',
+      'https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=700&q=80',
+      'https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=700&q=80',
+      'https://images.unsplash.com/photo-1484981138541-3d074aa97716?w=700&q=80',
+    ];
 
+    const grid = document.getElementById('heroTiles');
+    const hero = document.getElementById('hero');
 
-(function() {
-  const images = [
-    'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=600&q=80',
-    'https://images.unsplash.com/photo-1618605387956-8f9a1b4e51b8?w=600&q=80',
-    'https://images.unsplash.com/photo-1552581234-26160f608093?w=600&q=80',
-    'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=600&q=80',
-    'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80',
-    'https://images.unsplash.com/photo-1559028012-481c04fa702d?w=600&q=80',
-    'https://images.unsplash.com/photo-1493612276216-ee3925520721?w=600&q=80',
-    'https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=600&q=80',
-    'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=600&q=80',
-    'https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=600&q=80',
-  ];
+    if (!grid || !hero) return;
 
-  const dirs    = [-1, 1, -1, 1, -1];
-  const baseOff = [-20, 10, -15, 5, -10];
-  const MAX     = 30;
-  const hero    = document.getElementById('hero');
-  const rows    = hero.querySelectorAll('.tile-row');
-
-  // Build tiles
-  rows.forEach((row, i) => {
-    row.style.transition = 'transform 1.2s cubic-bezier(0.25,0.1,0.25,1)';
-    row.style.transform  = `translateX(${baseOff[i]}px)`;
-    for (let j = 0; j < 7; j++) {
+    // Fill 20 tiles (5 cols x 4 rows)
+    for (let i = 0; i < 20; i++) {
       const tile = document.createElement('div');
       tile.style.cssText = `
-        width:240px; height:148px; border-radius:10px; flex-shrink:0;
-        background:url(${images[(i * 2 + j) % images.length]}) center/cover;
+        border-radius: 10px;
+        background: url(${images[i % images.length]}) center/cover;
+        width: 100%;
+        height: 100%;
       `;
-      row.appendChild(tile);
+      grid.appendChild(tile);
     }
-  });
 
-  // Mouse move — subtle horizontal parallax
-  hero.addEventListener('mousemove', e => {
-    const rect = hero.getBoundingClientRect();
-    const cx   = (e.clientX - rect.left) / rect.width - 0.5;
-    rows.forEach((r, i) => {
-      const shift = baseOff[i] + dirs[i] * cx * MAX;
-      r.style.transform = `translateX(${shift}px)`;
-    });
-  });
+    // Mouse + scroll offsets combined into a single transform
+    let mouseOffX = 0, mouseOffY = 0;
+    let scrollOffX = 0, scrollOffY = 0;
+    const moveRangeX = 100;
+    const moveRangeY = 160;
 
-  // Mouse leave — snap back to base
-  hero.addEventListener('mouseleave', () => {
-    rows.forEach((r, i) => {
-      r.style.transform = `translateX(${baseOff[i]}px)`;
-    });
-  });
-
-  // Scroll wheel — tiny nudge for 200ms, then page scrolls freely
-  let heroNudge   = 0;
-  let nudgeTimer  = null;
-  let heroTicking = false;
-
-  window.addEventListener('wheel', e => {
-    // Only apply nudge when hero is visible (within top half of page)
-    if (window.scrollY < window.innerHeight * 0.5) {
-      heroNudge += e.deltaY * 0.03;
-      heroNudge  = Math.max(-MAX, Math.min(MAX, heroNudge));
-
-      if (!heroTicking) {
-        heroTicking = true;
-        requestAnimationFrame(() => {
-          rows.forEach((r, i) => {
-            const shift = baseOff[i] + dirs[i] * heroNudge;
-            r.style.transform = `translateX(${shift}px)`;
-          });
-          heroTicking = false;
-        });
-      }
-
-      // Reset nudge back to base after 200ms of no scrolling
-      clearTimeout(nudgeTimer);
-      nudgeTimer = setTimeout(() => {
-        heroNudge = 0;
-        rows.forEach((r, i) => {
-          r.style.transform = `translateX(${baseOff[i]}px)`;
-        });
-      }, 200);
+    function applyTransform() {
+      grid.style.transform = `rotate(16deg) translate(${scrollOffX + mouseOffX}px, ${scrollOffY + mouseOffY}px)`;
     }
-  }, { passive: true }); // passive:true lets the page scroll normally
 
-})();
+    function applyTransformSmooth() {
+      grid.style.transition = 'transform 0.8s ease';
+      applyTransform();
+    }
 
+    function applyTransformInstant() {
+      grid.style.transition = 'none';
+      applyTransform();
+    }
 
+    hero.addEventListener('mousemove', e => {
+      const rect = hero.getBoundingClientRect();
+      mouseOffX = ((e.clientX - rect.left) / rect.width - 0.5) * 20;
+      mouseOffY = ((e.clientY - rect.top) / rect.height - 0.5) * 12;
+      applyTransformSmooth();
+    });
 
+    hero.addEventListener('mouseleave', () => {
+      mouseOffX = 0;
+      mouseOffY = 0;
+      applyTransformSmooth();
+    });
 
-
-
-
-
-
-
-
-
+    // ScrollTrigger — grid moves while hero visible, resets when passed
+    if (!REDUCE) {
+      ScrollTrigger.create({
+        trigger: hero,
+        start: 'top top',
+        end: () => `bottom+=${window.innerHeight * 0.3} top`,
+        scrub: 1.5,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          const p = self.progress;
+          if (p <= 0.7) {
+            scrollOffX = (p / 0.7) * moveRangeX;
+            scrollOffY = (p / 0.7) * moveRangeY;
+          } else {
+            scrollOffX = ((1 - p) / 0.3) * moveRangeX;
+            scrollOffY = ((1 - p) / 0.3) * moveRangeY;
+          }
+          applyTransformInstant();
+        }
+      });
+    }
+  })();
 
   /* ========== CURSOR ========== */
   const cursor = document.querySelector('.custom-cursor');
@@ -185,36 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    /* ========== HERO COLLAGE PARALLAX ========== */
-    const collage = document.querySelector('.hero-collage');
-    if (collage) {
-      gsap.to(collage, {
-        y: '8%',
-        rotate: -11,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '#hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1.5
-        }
-      });
-    }
-
-    /* ========== HERO ITEMS STAGGER ENTRANCE ========== */
-    const collageItems = document.querySelectorAll('.collage-item');
-    if (collageItems.length) {
-      gsap.from(collageItems, {
-        y: 60,
-        opacity: 0,
-        scale: 0.85,
-        duration: 1,
-        stagger: 0.06,
-        ease: 'power3.out',
-        delay: 0.1
-      });
-    }
-
     /* ========== HERO CONTENT ENTRANCE ========== */
     gsap.from('.hero-title', {
       y: 80,
@@ -262,20 +230,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    /* ========== HERO MOUSE PARALLAX ========== */
-    if (collage && window.innerWidth > 992 && !REDUCE) {
-      document.addEventListener('mousemove', (e) => {
-        const xPct = (e.clientX / window.innerWidth - 0.5) * 2;
-        const yPct = (e.clientY / window.innerHeight - 0.5) * 2;
-        gsap.to(collage, {
-          x: xPct * 20,
-          y: yPct * 15,
-          duration: 1.5,
-          ease: 'power2.out'
-        });
-      });
-    }
-
     /* ========== SVG UNDERLINE DRAW ========== */
     const underlines = document.querySelectorAll('.underline-path');
     underlines.forEach(path => {
@@ -297,7 +251,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* =====================================================================
        SECTION 1 — FADE + RISE (#series)
-       Apple-style smooth entrance
        ===================================================================== */
     const seriesTl = gsap.timeline({
       scrollTrigger: { trigger: '#series', start: 'top 75%', once: true }
@@ -310,7 +263,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* =====================================================================
        SECTION 2 — MASK REVEAL (#features)
-       Content slides up through overflow-hidden masks
        ===================================================================== */
     const featuresTl = gsap.timeline({
       scrollTrigger: { trigger: '#features', start: 'top 75%', once: true }
@@ -327,8 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }, '-=0.3');
 
     /* =====================================================================
-       SECTION 3 — TEXT SPLIT (#grid-scroll headings)
-       Words animate individually with blur → sharp
+       SECTION 3 — TEXT SPLIT (#grid-scroll)
        ===================================================================== */
     const gridTextItems = document.querySelectorAll('.grid__item--text');
     gsap.from(gridTextItems, {
@@ -355,14 +306,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* =====================================================================
        SECTION 4 — IMAGE STACK MOTION (#episodes, #videos, #events)
-       Layered images with scroll-linked parallax at different speeds
        ===================================================================== */
     ['#episodes', '#videos', '#events'].forEach(id => {
       const section = document.querySelector(id);
       if (!section) return;
       const main = section.querySelector('.ci-main');
-      const sec = section.querySelector('.ci-secondary');
-      const acc = section.querySelector('.ci-accent');
+      const sec  = section.querySelector('.ci-secondary');
+      const acc  = section.querySelector('.ci-accent');
 
       const tl = gsap.timeline({
         scrollTrigger: { trigger: section, start: 'top 75%', once: true }
@@ -372,33 +322,18 @@ document.addEventListener('DOMContentLoaded', () => {
         .from(section.querySelector('.section-title'), { y: 60, opacity: 0, duration: 0.9, ease: 'power3.out' }, '-=0.2')
         .from(section.querySelector('.content-desc, .content-text p'), { y: 30, opacity: 0, duration: 0.7, ease: 'power3.out' }, '-=0.4')
         .from(main, { y: 80, opacity: 0, rotation: -5, duration: 1, ease: 'power3.out' }, '-=0.5')
-        .from(sec, { y: 60, opacity: 0, rotation: 5, duration: 0.9, ease: 'power3.out' }, '-=0.4')
-        .from(acc, { y: 40, opacity: 0, rotation: -3, duration: 0.8, ease: 'power3.out' }, '-=0.3');
+        .from(sec,  { y: 60, opacity: 0, rotation:  5, duration: 0.9, ease: 'power3.out' }, '-=0.4')
+        .from(acc,  { y: 40, opacity: 0, rotation: -3, duration: 0.8, ease: 'power3.out' }, '-=0.3');
 
       if (window.innerWidth > 768) {
-        gsap.to(main, {
-          y: -40,
-          ease: 'none',
-          scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: 1 }
-        });
-        gsap.to(sec, {
-          y: -25,
-          rotation: 3,
-          ease: 'none',
-          scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: 1 }
-        });
-        gsap.to(acc, {
-          y: -15,
-          rotation: -2,
-          ease: 'none',
-          scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: 1 }
-        });
+        gsap.to(main, { y: -40, ease: 'none', scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: 1 } });
+        gsap.to(sec,  { y: -25, rotation: 3,  ease: 'none', scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: 1 } });
+        gsap.to(acc,  { y: -15, rotation: -2, ease: 'none', scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: 1 } });
       }
     });
 
     /* =====================================================================
        SECTION 5 — HORIZONTAL MARQUEE
-       Infinite seamless loop with pause on hover
        ===================================================================== */
     const marqueeContainer = document.querySelector('.marquee-container');
     if (marqueeContainer) {
@@ -409,60 +344,46 @@ document.addEventListener('DOMContentLoaded', () => {
         const rev = row.classList.contains('reverse');
         gsap.set(clone, { x: rev ? -width : width });
         const tl = gsap.timeline({ repeat: -1, paused: false });
-        tl.to([row, clone], {
-          x: rev ? `+=${width}` : `-=${width}`,
-          duration: 30,
-          ease: 'none'
-        })
-          .set(row, { x: 0 })
+        tl.to([row, clone], { x: rev ? `+=${width}` : `-=${width}`, duration: 30, ease: 'none' })
+          .set(row,   { x: 0 })
           .set(clone, { x: rev ? -width : width });
         row.parentElement.addEventListener('mouseenter', () => tl.pause());
         row.parentElement.addEventListener('mouseleave', () => tl.resume());
       });
     }
 
-    /* ========== BLOG — Fade + Rise ========== */
+    /* ========== BLOG ========== */
     const blogTl = gsap.timeline({
       scrollTrigger: { trigger: '#blog', start: 'top 75%', once: true }
     });
     blogTl
-      .from('#blog .section-tag', { y: 20, opacity: 0, duration: 0.6, ease: 'power3.out' })
-      .from('#blog .section-title', { y: 80, opacity: 0, duration: 1.1, ease: 'power3.out' }, '-=0.2')
-      .from('#blog .section-desc', { y: 30, opacity: 0, duration: 0.9, ease: 'power3.out' }, '-=0.4')
-      .from('#blog .template-card', { y: 40, opacity: 0, duration: 0.9, stagger: 0.08, ease: 'power3.out' }, '-=0.3');
+      .from('#blog .section-tag',    { y: 20, opacity: 0, duration: 0.6, ease: 'power3.out' })
+      .from('#blog .section-title',  { y: 80, opacity: 0, duration: 1.1, ease: 'power3.out' }, '-=0.2')
+      .from('#blog .section-desc',   { y: 30, opacity: 0, duration: 0.9, ease: 'power3.out' }, '-=0.4')
+      .from('#blog .template-card',  { y: 40, opacity: 0, duration: 0.9, stagger: 0.08, ease: 'power3.out' }, '-=0.3');
 
     /* ========== TESTIMONIALS ========== */
     const testiTl = gsap.timeline({
       scrollTrigger: { trigger: '#testimonials', start: 'top 75%', once: true }
     });
     testiTl
-      .from('#testimonials .section-tag', { y: 20, opacity: 0, duration: 0.6, ease: 'power3.out' })
-      .from('#testimonials .section-title', { y: 60, opacity: 0, duration: 0.9, ease: 'power3.out' }, '-=0.2')
-      .from('#testimonials .testimonial-card', { y: 60, opacity: 0, duration: 1, ease: 'power3.out' }, '-=0.4');
+      .from('#testimonials .section-tag',       { y: 20, opacity: 0, duration: 0.6, ease: 'power3.out' })
+      .from('#testimonials .section-title',     { y: 60, opacity: 0, duration: 0.9, ease: 'power3.out' }, '-=0.2')
+      .from('#testimonials .testimonial-card',  { y: 60, opacity: 0, duration: 1,   ease: 'power3.out' }, '-=0.4');
 
-    /* ========== FOOTER REVEAL ========== */
+    /* ========== FOOTER ========== */
     gsap.from('.footer-content', {
-      y: 60,
-      opacity: 0,
-      duration: 1,
-      ease: 'power3.out',
+      y: 60, opacity: 0, duration: 1, ease: 'power3.out',
       scrollTrigger: { trigger: '#contact', start: 'top 70%', once: true }
     });
-
     gsap.from('.footer-social a', {
-      y: 20,
-      opacity: 0,
-      duration: 0.5,
-      stagger: 0.08,
-      ease: 'power3.out',
+      y: 20, opacity: 0, duration: 0.5, stagger: 0.08, ease: 'power3.out',
       scrollTrigger: { trigger: '.footer-bottom', start: 'top 80%', once: true }
     });
 
-    /* =====================================================================
-       GRID SCROLLER (keep existing pin + parallax for desktop)
-       ===================================================================== */
+    /* ========== GRID SCROLLER ========== */
     const gridSection = document.querySelector('.grid-scroll-section');
-    const gridImgs = document.querySelectorAll('.grid-scroll-section .grid__img');
+    const gridImgs    = document.querySelectorAll('.grid-scroll-section .grid__img');
 
     if (gridSection && window.innerWidth > 992) {
       ScrollTrigger.create({
@@ -475,27 +396,18 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       gridImgs.forEach((img, i) => {
-        const dir = i % 2 === 0 ? 1 : -1;
+        const dir      = i % 2 === 0 ? 1 : -1;
         const rotStart = dir * (8 + i * 2);
-        const rotEnd = -dir * (8 + i * 2);
-        const yOffset = 120 + i * 40;
+        const rotEnd   = -dir * (8 + i * 2);
+        const yOffset  = 120 + i * 40;
 
-        gsap.fromTo(img, {
-          y: yOffset * dir,
-          rotation: rotStart,
-          opacity: 0.5
-        }, {
-          y: -yOffset * dir,
-          rotation: rotEnd,
-          opacity: 1,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: gridSection,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1.5
+        gsap.fromTo(img,
+          { y: yOffset * dir,  rotation: rotStart, opacity: 0.5 },
+          { y: -yOffset * dir, rotation: rotEnd,   opacity: 1,
+            ease: 'none',
+            scrollTrigger: { trigger: gridSection, start: 'top bottom', end: 'bottom top', scrub: 1.5 }
           }
-        });
+        );
       });
     }
 
@@ -503,16 +415,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.innerWidth > 992) {
       document.querySelectorAll('.template-card, .feature-card').forEach(card => {
         card.addEventListener('mousemove', (e) => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
+          const rect    = card.getBoundingClientRect();
           const centerX = rect.width / 2;
           const centerY = rect.height / 2;
           gsap.to(card, {
-            rotateX: (y - centerY) / 20,
-            rotateY: (centerX - x) / 20,
-            duration: 0.4,
-            ease: 'power2.out'
+            rotateX: (e.clientY - rect.top  - centerY) / 20,
+            rotateY: (centerX - (e.clientX - rect.left)) / 20,
+            duration: 0.4, ease: 'power2.out'
           });
         });
         card.addEventListener('mouseleave', () => {
@@ -524,10 +433,9 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('mousemove', (e) => {
           const rect = btn.getBoundingClientRect();
           gsap.to(btn, {
-            x: (e.clientX - rect.left - rect.width / 2) * 0.25,
-            y: (e.clientY - rect.top - rect.height / 2) * 0.25,
-            duration: 0.3,
-            ease: 'power2.out'
+            x: (e.clientX - rect.left - rect.width  / 2) * 0.25,
+            y: (e.clientY - rect.top  - rect.height / 2) * 0.25,
+            duration: 0.3, ease: 'power2.out'
           });
         });
         btn.addEventListener('mouseleave', () => {
@@ -545,37 +453,58 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ========== TESTIMONIAL SLIDER ========== */
   const track = document.querySelector('.testimonial-track');
-  const dots = document.querySelectorAll('.dot');
+  const cards = document.querySelectorAll('.testimonial-card');
+  const prevBtn = document.querySelector('.testi-arrow--prev');
+  const nextBtn = document.querySelector('.testi-arrow--next');
+  const counter = document.querySelector('.testi-counter');
   let currentTesti = 0;
-  const totalTesti = document.querySelectorAll('.testimonial-card').length;
+  const totalTesti = cards.length;
+
+  function getSlideWidth() {
+    if (!cards.length) return 0;
+    return cards[0].getBoundingClientRect().width;
+  }
 
   function goToTesti(index) {
     if (!track) return;
-    currentTesti = index;
-    gsap.to(track, { x: -currentTesti * 100 + '%', duration: 0.5, ease: 'power3.out' });
-    dots.forEach(d => d.classList.remove('active'));
-    dots[currentTesti]?.classList.add('active');
+    currentTesti = Math.max(0, Math.min(index, totalTesti - 1));
+    const slideWidth = getSlideWidth();
+    gsap.to(track, { x: -(currentTesti * slideWidth), duration: 0.5, ease: 'power3.out' });
+    if (counter) counter.textContent = (currentTesti + 1) + ' / ' + totalTesti;
   }
 
-  dots.forEach(dot => {
-    dot.addEventListener('click', () => {
-      goToTesti(parseInt(dot.dataset.index));
-    });
+  if (prevBtn) prevBtn.addEventListener('click', () => {
+    clearInterval(testiInterval);
+    goToTesti(currentTesti - 1);
+    resetAutoPlay();
   });
 
-  let testiInterval = setInterval(() => {
-    goToTesti((currentTesti + 1) % totalTesti);
-  }, 5000);
+  if (nextBtn) nextBtn.addEventListener('click', () => {
+    clearInterval(testiInterval);
+    goToTesti(currentTesti + 1);
+    resetAutoPlay();
+  });
+
+  let testiInterval;
+  function resetAutoPlay() {
+    clearInterval(testiInterval);
+    testiInterval = setInterval(() => {
+      goToTesti((currentTesti + 1) % totalTesti);
+    }, 2000);
+  }
+  resetAutoPlay();
 
   const testimonialSection = document.getElementById('testimonials');
   if (testimonialSection) {
     testimonialSection.addEventListener('mouseenter', () => clearInterval(testiInterval));
-    testimonialSection.addEventListener('mouseleave', () => {
-      testiInterval = setInterval(() => {
-        goToTesti((currentTesti + 1) % totalTesti);
-      }, 5000);
-    });
+    testimonialSection.addEventListener('mouseleave', resetAutoPlay);
   }
+
+  window.addEventListener('resize', () => {
+    goToTesti(currentTesti);
+  });
+
+  goToTesti(0);
 
   /* ========== SCRIBBLE HIGHLIGHTS ========== */
   function initScribbleHighlights() {
@@ -598,22 +527,21 @@ document.addEventListener('DOMContentLoaded', () => {
         svg.setAttribute('viewBox', '0 0 ' + rect.width + ' ' + rect.height);
         el.appendChild(svg);
 
-        const cx = rect.width / 2;
-        const cy = rect.height / 2;
+        const cx     = rect.width / 2;
+        const cy     = rect.height / 2;
         const baseRx = rect.width * 0.55;
         const baseRy = rect.height * 0.55;
 
         const numLoops = 4 + Math.floor(r() * 4);
-        const paths = [];
+        const paths    = [];
 
         for (let i = 0; i < numLoops; i++) {
-          const rx = baseRx * (0.85 + r() * 0.3);
-          const ry = baseRy * (0.85 + r() * 0.3);
+          const rx       = baseRx * (0.85 + r() * 0.3);
+          const ry       = baseRy * (0.85 + r() * 0.3);
           const rotation = (r() - 0.5) * 0.25;
-          const ox = (r() - 0.5) * 6;
-          const oy = (r() - 0.5) * 6;
-
-          const d = ellipsePath(cx + ox, cy + oy, rx, ry, rotation, r);
+          const ox       = (r() - 0.5) * 6;
+          const oy       = (r() - 0.5) * 6;
+          const d        = ellipsePath(cx + ox, cy + oy, rx, ry, rotation, r);
 
           const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
           path.setAttribute('d', d);
@@ -627,23 +555,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const section = el.closest('section') || el.parentElement;
         const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: section,
-            start: 'top 80%',
-            once: true
-          }
+          scrollTrigger: { trigger: section, start: 'top 80%', once: true }
         });
 
-        paths.forEach(function(p, i) {
+        paths.forEach(function (p, i) {
           try {
             var len = p.getTotalLength();
             if (len > 0) {
               gsap.set(p, { strokeDasharray: len, strokeDashoffset: len });
-              tl.to(p, {
-                strokeDashoffset: 0,
-                duration: 1.2 + r() * 0.8,
-                ease: 'power2.out'
-              }, i * (0.1 + r() * 0.1));
+              tl.to(p, { strokeDashoffset: 0, duration: 1.2 + r() * 0.8, ease: 'power2.out' },
+                i * (0.1 + r() * 0.1));
             }
           } catch (e) {}
         });
@@ -652,7 +573,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function ellipsePath(cx, cy, rx, ry, rot, rand) {
-    var k = 0.5522847498;
+    var k    = 0.5522847498;
     var cosR = Math.cos(rot);
     var sinR = Math.sin(rot);
     var wobble = 1.5;
@@ -663,19 +584,19 @@ document.addEventListener('DOMContentLoaded', () => {
       return { x: cx + dx * cosR - dy * sinR, y: cy + dx * sinR + dy * cosR };
     }
 
-    var pt = t(cx, cy - ry);
+    var pt = t(cx,      cy - ry);
     var pr = t(cx + rx, cy);
-    var pb = t(cx, cy + ry);
+    var pb = t(cx,      cy + ry);
     var pl = t(cx - rx, cy);
 
-    var c0 = t(cx + k * rx + (rand() - 0.5) * wobble, cy - ry + (rand() - 0.5) * wobble);
-    var c1 = t(cx + rx + (rand() - 0.5) * wobble, cy - k * ry + (rand() - 0.5) * wobble);
-    var c2 = t(cx + rx + (rand() - 0.5) * wobble, cy + k * ry + (rand() - 0.5) * wobble);
-    var c3 = t(cx + k * rx + (rand() - 0.5) * wobble, cy + ry + (rand() - 0.5) * wobble);
-    var c4 = t(cx - k * rx + (rand() - 0.5) * wobble, cy + ry + (rand() - 0.5) * wobble);
-    var c5 = t(cx - rx + (rand() - 0.5) * wobble, cy + k * ry + (rand() - 0.5) * wobble);
-    var c6 = t(cx - rx + (rand() - 0.5) * wobble, cy - k * ry + (rand() - 0.5) * wobble);
-    var c7 = t(cx - k * rx + (rand() - 0.5) * wobble, cy - ry + (rand() - 0.5) * wobble);
+    var c0 = t(cx + k * rx + (rand() - 0.5) * wobble, cy - ry      + (rand() - 0.5) * wobble);
+    var c1 = t(cx + rx      + (rand() - 0.5) * wobble, cy - k * ry + (rand() - 0.5) * wobble);
+    var c2 = t(cx + rx      + (rand() - 0.5) * wobble, cy + k * ry + (rand() - 0.5) * wobble);
+    var c3 = t(cx + k * rx + (rand() - 0.5) * wobble, cy + ry      + (rand() - 0.5) * wobble);
+    var c4 = t(cx - k * rx + (rand() - 0.5) * wobble, cy + ry      + (rand() - 0.5) * wobble);
+    var c5 = t(cx - rx      + (rand() - 0.5) * wobble, cy + k * ry + (rand() - 0.5) * wobble);
+    var c6 = t(cx - rx      + (rand() - 0.5) * wobble, cy - k * ry + (rand() - 0.5) * wobble);
+    var c7 = t(cx - k * rx + (rand() - 0.5) * wobble, cy - ry      + (rand() - 0.5) * wobble);
 
     function f(p) { return p.x.toFixed(1) + ',' + p.y.toFixed(1); }
 
@@ -690,4 +611,5 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('load', () => {
     ScrollTrigger.refresh(true);
   });
-});
+
+}); // ← closes DOMContentLoaded
