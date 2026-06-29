@@ -34,8 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
       'https://images.unsplash.com/photo-1567596388756-f6d710c8fc07?w=700&q=80',
       'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=700&q=80',
       'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=700&q=80',
-      'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=700&q=80',
-      'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=700&q=80',
+      'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=700&q=80',
+      'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=700&q=80',
       'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=700&q=80',
       'https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=700&q=80',
       'https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=700&q=80',
@@ -59,37 +59,41 @@ document.addEventListener('DOMContentLoaded', () => {
       grid.appendChild(tile);
     }
 
-    // Mouse + scroll offsets combined into a single transform
+    // Smooth lerp-based animation for buttery motion
     let mouseOffX = 0, mouseOffY = 0;
     let scrollOffX = 0, scrollOffY = 0;
+    let targetX = 0, targetY = 0;
+    let currentX = 0, currentY = 0;
     const moveRangeX = 100;
     const moveRangeY = 160;
+    const LERP = 0.08;
 
-    function applyTransform() {
-      grid.style.transform = `rotate(16deg) translate(${scrollOffX + mouseOffX}px, ${scrollOffY + mouseOffY}px)`;
+    function updateTarget() {
+      targetX = scrollOffX + mouseOffX;
+      targetY = scrollOffY + mouseOffY;
     }
 
-    function applyTransformSmooth() {
-      grid.style.transition = 'transform 0.8s ease';
-      applyTransform();
-    }
-
-    function applyTransformInstant() {
-      grid.style.transition = 'none';
-      applyTransform();
-    }
+    gsap.ticker.add(function tick() {
+      currentX += (targetX - currentX) * LERP;
+      currentY += (targetY - currentY) * LERP;
+      if (Math.abs(currentX - targetX) < 0.01 && Math.abs(currentY - targetY) < 0.01) {
+        currentX = targetX;
+        currentY = targetY;
+      }
+      gsap.set(grid, { x: currentX, y: currentY, rotation: 13 });
+    });
 
     hero.addEventListener('mousemove', e => {
       const rect = hero.getBoundingClientRect();
       mouseOffX = ((e.clientX - rect.left) / rect.width - 0.5) * 20;
       mouseOffY = ((e.clientY - rect.top) / rect.height - 0.5) * 12;
-      applyTransformSmooth();
+      updateTarget();
     });
 
     hero.addEventListener('mouseleave', () => {
       mouseOffX = 0;
       mouseOffY = 0;
-      applyTransformSmooth();
+      updateTarget();
     });
 
     // ScrollTrigger — grid moves while hero visible, resets when passed
@@ -98,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
         trigger: hero,
         start: 'top top',
         end: () => `bottom+=${window.innerHeight * 0.3} top`,
-        scrub: 1.5,
+        scrub: 2,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
           const p = self.progress;
@@ -109,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
             scrollOffX = ((1 - p) / 0.3) * moveRangeX;
             scrollOffY = ((1 - p) / 0.3) * moveRangeY;
           }
-          applyTransformInstant();
+          updateTarget();
         }
       });
     }
@@ -164,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '.section-tag', '.section-title', '.section-desc',
         '.template-card', '.feature-card', '.mask-wrap > *',
         '.content-text', '.content-images', '.ci-main', '.ci-secondary', '.ci-accent',
-        '.footer-content', '.footer-social a', '.grid__item--text .word',
+        '.footer-content', '.footer-social a',
         '.testimonial-card', '.blog-card'
       ], { opacity: 1, y: 0, x: 0, scale: 1, rotation: 0, filter: 'blur(0px)' });
       return;
@@ -173,15 +177,36 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ========== NAVBAR ========== */
     const navbar = document.getElementById('navbar');
     ScrollTrigger.create({
-      start: 'top -80',
-      onUpdate: (self) => {
-        if (self.progress > 0) {
-          navbar.classList.add('scrolled');
-        } else {
-          navbar.classList.remove('scrolled');
-        }
-      }
+      trigger: '#hero',
+      start: 'bottom top',
+      onEnter: () => navbar.classList.add('visible'),
+      onLeaveBack: () => navbar.classList.remove('visible')
     });
+
+    /* ========== HAMBURGER MENU ========== */
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    if (hamburger && navLinks) {
+      hamburger.addEventListener('click', () => {
+        const isOpen = hamburger.classList.toggle('open');
+        navLinks.classList.toggle('nav-open', isOpen);
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+      });
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          hamburger.classList.remove('open');
+          navLinks.classList.remove('nav-open');
+          document.body.style.overflow = '';
+        });
+      });
+      document.addEventListener('click', (e) => {
+        if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+          hamburger.classList.remove('open');
+          navLinks.classList.remove('nav-open');
+          document.body.style.overflow = '';
+        }
+      });
+    }
 
     /* ========== HERO CONTENT ENTRANCE ========== */
     gsap.from('.hero-title', {
@@ -281,28 +306,6 @@ document.addEventListener('DOMContentLoaded', () => {
     /* =====================================================================
        SECTION 3 — TEXT SPLIT (#grid-scroll)
        ===================================================================== */
-    const gridTextItems = document.querySelectorAll('.grid__item--text');
-    gsap.from(gridTextItems, {
-      opacity: 0,
-      y: 60,
-      duration: 1,
-      ease: 'power3.out',
-      stagger: 0.25,
-      scrollTrigger: { trigger: '#grid-scroll', start: 'top 75%', once: true }
-    });
-    document.querySelectorAll('.grid__item--text .grid-item-title').forEach(splitToWords);
-    const gridWords = document.querySelectorAll('.grid__item--text .word');
-    if (gridWords.length) {
-      gsap.from(gridWords, {
-        opacity: 0,
-        y: 40,
-        filter: 'blur(8px)',
-        duration: 0.8,
-        stagger: 0.04,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: '#grid-scroll', start: 'top 75%', once: true }
-      });
-    }
 
     /* =====================================================================
        SECTION 4 — IMAGE STACK MOTION (#episodes, #videos, #events)
@@ -459,6 +462,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const counter = document.querySelector('.testi-counter');
   let currentTesti = 0;
   const totalTesti = cards.length;
+
 
   function getSlideWidth() {
     if (!cards.length) return 0;
